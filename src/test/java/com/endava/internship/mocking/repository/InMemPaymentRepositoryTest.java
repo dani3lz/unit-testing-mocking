@@ -15,9 +15,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class InMemPaymentRepositoryTest {
     private InMemPaymentRepository inMemPaymentRepository;
-    private final Payment payment1 = new Payment(1, 25.7, "Skip");
-    private final Payment payment2 = new Payment(2, 17.1, "Skip");
-    private final Payment payment3 = new Payment(3, 99.9, "Skip");
+    private static final Payment payment1 = new Payment(1, 25.7, "Skip");
+    private static final Payment payment2 = new Payment(2, 17.1, "Skip");
+    private static final Payment payment3 = new Payment(3, 99.9, "Skip");
 
 
     @BeforeEach
@@ -30,7 +30,7 @@ class InMemPaymentRepositoryTest {
         UUID uuid = payment1.getPaymentId();
         inMemPaymentRepository.save(payment1);
 
-        assertEquals(inMemPaymentRepository.findById(uuid), Optional.of(payment1));
+        assertThat(inMemPaymentRepository.findById(uuid)).isEqualTo(Optional.of(payment1));
     }
 
     @Test
@@ -50,7 +50,7 @@ class InMemPaymentRepositoryTest {
 
     @Test
     void saveMethodWithValidPayment_shouldReturnThisPayment() {
-        assertEquals(inMemPaymentRepository.save(payment1), payment1);
+        assertThat(inMemPaymentRepository.save(payment1)).isEqualTo(payment1);
     }
 
     @Test
@@ -72,9 +72,9 @@ class InMemPaymentRepositoryTest {
     void editMessageWithValidPaymentId_shouldReturnThisPaymentWithNewMessage() {
         inMemPaymentRepository.save(payment1);
         String msg = "Some Message";
-        inMemPaymentRepository.editMessage(payment1.getPaymentId(), msg);
+        Payment paymentResult = inMemPaymentRepository.editMessage(payment1.getPaymentId(), msg);
 
-        assertEquals(inMemPaymentRepository.editMessage(payment1.getPaymentId(), msg), payment1);
+        assertThat(paymentResult).isEqualTo(payment1);
     }
 
     @Test
